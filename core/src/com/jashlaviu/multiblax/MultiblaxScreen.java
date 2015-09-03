@@ -84,6 +84,11 @@ public class MultiblaxScreen extends ScreenAdapter{
         shaper.rect(pBounds.x, pBounds.y, pBounds.width, pBounds.height);
         shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
         shaper.end();
+        
+        // Estoy re-dibujando el piso para tapar el disparo
+        stage.getBatch().begin();
+        floor.draw(stage.getBatch(), 0);
+        stage.getBatch().end();
 
         movePlayer();
     }
