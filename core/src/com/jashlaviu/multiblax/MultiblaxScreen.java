@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -75,6 +76,14 @@ public class MultiblaxScreen extends ScreenAdapter{
         stage.draw();
         updateShoots(delta);
         stage.act(delta);
+        
+        Rectangle pBounds = player.getCollisionBounds();
+        Rectangle b1Bounds = ball.getCollisionBounds();
+        shaper.begin(ShapeRenderer.ShapeType.Line);
+        shaper.setColor(0,0,0,1);
+        shaper.rect(pBounds.x, pBounds.y, pBounds.width, pBounds.height);
+        shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
+        shaper.end();
 
         movePlayer();
     }
@@ -87,21 +96,24 @@ public class MultiblaxScreen extends ScreenAdapter{
 
     private void updatePlayer(float delta){
         player.updateY(delta);
-        if(player.getY() < floor.getTop()){
+        Rectangle pBounds = player.getCollisionBounds();
+        if(pBounds.y < floor.getTop()){
             player.setY(Math.round(floor.getTop() - player.getCollisionOffsetY()));
             player.setVelocityY(0);
         }
 
         player.updateX(delta);
-        if(player.getX() < wallLeft.getRight()){
+        pBounds = player.getCollisionBounds();
+        if(pBounds.x < wallLeft.getRight()){
             player.setX(Math.round(wallLeft.getRight() + player.getCollisionOffsetX()));
             player.setVelocityX(0);
         }
 
-        if(player.getCollisionBounds().x + player.getCollisionBounds().width > wallRight.getX()){
-            player.setX(Math.round(wallRight.getX() - player.getCollisionBounds().width - player.getCollisionOffsetX()));
+        if(pBounds.x + pBounds.width > wallRight.getX()){
+            player.setX(Math.round(wallRight.getX() - pBounds.width - player.getCollisionOffsetX()));
             player.setVelocityX(0);
         }
+       
     }
 
     private void updateShoots(float delta){
@@ -109,7 +121,6 @@ public class MultiblaxScreen extends ScreenAdapter{
 
         shaper.begin(ShapeRenderer.ShapeType.Line);
         shaper.setColor(0,0,0,1);
-        //shaper.setAutoShapeType(ShapeRenderer.ShapeType.Line);
 
         Iterator<Shoot> shootIterator = shoots.iterator();
         while(shootIterator.hasNext()){
@@ -132,22 +143,24 @@ public class MultiblaxScreen extends ScreenAdapter{
     private void updateBalls(float delta){
         for(Ball ball : balls){
             ball.updateY(delta);
-            if(ball.getCollisionBounds().getY() < floor.getTop()){
+            Rectangle bBounds = ball.getCollisionBounds();
+            if(bBounds.getY() < floor.getTop()){
                 ball.setY(Math.round(floor.getTop()));
                 ball.bounceY();
             }
 
             ball.updateX(delta);
-            if(ball.getCollisionBounds().getX() < wallLeft.getRight()){
+            bBounds = ball.getCollisionBounds();
+            
+            if(bBounds.x < wallLeft.getRight()){
                 ball.setX(Math.round(wallLeft.getX() + wallLeft.getWidth()
                         + ball.getCollisionOffsetX()));
                 ball.bounceX();
             }
-            if(ball.getCollisionBounds().getX()
-                    + ball.getCollisionBounds().getWidth() > wallRight.getX()) {
+            if(bBounds.x + bBounds.width > wallRight.getX()) {
 
                 ball.setX(Math.round(wallRight.getX()
-                        - ball.getCollisionBounds().width
+                        - bBounds.width
                         - ball.getCollisionOffsetX()));
                 ball.bounceX();
             }

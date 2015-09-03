@@ -16,7 +16,7 @@ public class Player extends ActorGeneric {
         super(posX, posY);
 
         setRegion(TextureLoader.playerRegion);
-        setCollisionBounds(posX, posY, getWidth(), getHeight());
+        setCollisionBounds(getX(), getY(), getWidth(), getHeight());
 
         gravity = -650;
         maxSpeedY = 1000;

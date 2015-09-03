@@ -16,18 +16,18 @@ public class ActorGeneric extends Actor{
 
     protected Vector2 velocity;
     protected Vector2 collisionBoundsOffset;
+    
+    protected float oldX, oldY;
 
 
     public ActorGeneric(float posX, float posY){
         setRegion(TextureLoader.noTextureRegion);
         collisionBoundsOffset = new Vector2(0, 0);
-        collisionBounds = new Rectangle(
-                posX + collisionBoundsOffset.x,
-                posY + collisionBoundsOffset.y,
-                getWidth()-2*collisionBoundsOffset.x,
-                getHeight()-2*collisionBoundsOffset.y);
+        collisionBounds = new Rectangle(posX, posY, getWidth(), getHeight());
 
         setPosition(posX, posY);
+        oldX = posX;
+        oldY = posY;
         velocity = new Vector2(0, 0);
     }
 
@@ -48,8 +48,11 @@ public class ActorGeneric extends Actor{
 
     @Override
     public void positionChanged (){
-        collisionBounds.x = getX() + collisionBoundsOffset.x;
-        collisionBounds.y = getY() + collisionBoundsOffset.y;
+        collisionBounds.x += getX() - oldX;
+        collisionBounds.y += getY() - oldY;
+        
+        oldX = getX();
+        oldY = getY();
     }
 
     @Override
