@@ -13,7 +13,7 @@ public class Shoot extends ActorGeneric{
         
         collisionBounds = new Rectangle(posX, posY, 32, 32);
         setCollisionBounds(posX, posY, 32, 32);
-        System.out.println(posX);
+       // System.out.println(posX);
 
         velocity.y = 300;
     }

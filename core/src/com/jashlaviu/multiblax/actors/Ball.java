@@ -25,6 +25,10 @@ public class Ball extends ActorGeneric{
         }
         this.moveBy(0, MathUtils.round(velocity.y * delta));
     }
+    
+    public void flipVelocityX(){
+    	velocity.x = -velocity.x;
+    }
 
     public void bounceX(){
         velocity.x = -velocity.x;

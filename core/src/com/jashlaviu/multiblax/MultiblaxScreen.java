@@ -82,7 +82,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         shaper.begin(ShapeRenderer.ShapeType.Line);
         shaper.setColor(0,0,0,1);
         shaper.rect(pBounds.x, pBounds.y, pBounds.width, pBounds.height);
-        shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
+      //  shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
         shaper.end();
         
         // Estoy re-dibujando el piso para tapar el disparo
@@ -91,6 +91,22 @@ public class MultiblaxScreen extends ScreenAdapter{
         stage.getBatch().end();
 
         movePlayer();
+    }
+    
+    public void divideBall(Ball ball, Rectangle shootBounds){
+    	
+    	ball.remove();
+    	Ball newBall1 = new Ball(shootBounds.x - ball.getWidth() - 1, ball.getY());
+    	newBall1.setVelocityX(-150f);
+    	newBall1.setVelocityY(400);
+    	Ball newBall2 = new Ball(shootBounds.x + shootBounds.getWidth() + 1, ball.getY());
+    	newBall2.setVelocityX(150f);
+    	newBall2.setVelocityY(400);
+    	balls.add(newBall1);
+    	balls.add(newBall2);
+    	
+    	stage.addActor(newBall1);
+    	stage.addActor(newBall2);
     }
 
     public void shoot(){
@@ -136,9 +152,21 @@ public class MultiblaxScreen extends ScreenAdapter{
 
             shaper.rect(shootBounds.x, shootBounds.y, shootBounds.width, shootBounds.height);
 
-            if(shoot.getCollisionBounds().getY() + shoot.getCollisionBounds().getHeight() > roof.getY()){
+            if(shootBounds.getY() + shootBounds.getHeight() > roof.getY()){
                 shoot.remove(); //Remove from stage
                 shootIterator.remove();  //Remove from Array
+            }
+            
+            Iterator<Ball> ballIterator = balls.iterator();
+            while(ballIterator.hasNext()){
+            	Ball ball = ballIterator.next();
+            	if(shoot.collides(ball)){
+            		ballIterator.remove();
+            		divideBall(ball, shootBounds);
+            		shoot.remove();
+            		shootIterator.remove();
+            		break;
+            	}
             }
         }
 
