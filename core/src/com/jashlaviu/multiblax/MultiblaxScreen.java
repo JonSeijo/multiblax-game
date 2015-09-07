@@ -40,10 +40,10 @@ public class MultiblaxScreen extends ScreenAdapter{
         stage = new Stage(new FitViewport(800, 600, camera), batch);
 
         player = new Player(100f, 390f);
-        ball = new Ball(300, 400);
+        ball = new Ball(300, 400, Ball.SIZE_3);
         ball.setVelocityX(200);
 
-        ball2 = new Ball(400, 300);
+        ball2 = new Ball(400, 300, Ball.SIZE_3);
         ball2.setVelocityX(-200);
 
         balls = new Array<Ball>();
@@ -96,17 +96,21 @@ public class MultiblaxScreen extends ScreenAdapter{
     public void divideBall(Ball ball, Rectangle shootBounds){
     	
     	ball.remove();
-    	Ball newBall1 = new Ball(shootBounds.x - ball.getWidth() - 1, ball.getY());
-    	newBall1.setVelocityX(-150f);
-    	newBall1.setVelocityY(400);
-    	Ball newBall2 = new Ball(shootBounds.x + shootBounds.getWidth() + 1, ball.getY());
-    	newBall2.setVelocityX(150f);
-    	newBall2.setVelocityY(400);
-    	balls.add(newBall1);
-    	balls.add(newBall2);
-    	
-    	stage.addActor(newBall1);
-    	stage.addActor(newBall2);
+    	if(ball.getSize() > 1){
+	    	Ball newBall1 = new Ball(shootBounds.x - ball.getWidth() - 1,
+	    			ball.getY(), ball.getSize()-1);
+	    	newBall1.setVelocityX(-150f);
+	    	newBall1.setVelocityY(400);
+	    	Ball newBall2 = new Ball(shootBounds.x + shootBounds.getWidth() + 1,
+	    			ball.getY(), ball.getSize()-1);
+	    	newBall2.setVelocityX(150f);
+	    	newBall2.setVelocityY(400);
+	    	balls.add(newBall1);
+	    	balls.add(newBall2);
+	    	
+	    	stage.addActor(newBall1);
+	    	stage.addActor(newBall2);
+    	}
     }
 
     public void shoot(){

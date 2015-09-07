@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class TextureLoader {
 
     private Texture playerTexture, floorTexture, noTextureTexture;
-    private Texture ballBlueBigTexture, backgroundTexture, wallTexture;
+    private Texture ballBlueBigTexture, ballBlueMediumTexture, ballBlueSmallTexture; 
+    private Texture backgroundTexture, wallTexture;
     private Texture squarePinkTexture, shootLong0Texture;
 
     public static TextureRegion playerRegion, floorRegion, noTextureRegion;
-    public static TextureRegion ballBlueBigRegion, backgroundRegion, wallRegion;
+    public static TextureRegion ballBlueBigRegion, ballBlueMediumRegion, ballBlueSmallRegion;
+    public static TextureRegion backgroundRegion, wallRegion;
     public static TextureRegion squarePinkRegion, shootLong0Region;
 
     public TextureLoader(){
@@ -29,6 +31,12 @@ public class TextureLoader {
 
         ballBlueBigTexture = new Texture(Gdx.files.internal("ball_blue_big.png"));
         ballBlueBigRegion = new TextureRegion(ballBlueBigTexture);
+        
+        ballBlueMediumTexture = new Texture(Gdx.files.internal("ball_blue_medium.png"));
+        ballBlueMediumRegion = new TextureRegion(ballBlueMediumTexture);
+        
+        ballBlueSmallTexture = new Texture(Gdx.files.internal("ball_blue_small.png"));
+        ballBlueSmallRegion = new TextureRegion(ballBlueSmallTexture);
 
         playerTexture = new Texture(Gdx.files.internal("player_test.png"));
         playerRegion = new TextureRegion(playerTexture);
@@ -45,6 +53,8 @@ public class TextureLoader {
         floorTexture.dispose();
         noTextureTexture.dispose();
         ballBlueBigTexture.dispose();
+        ballBlueMediumTexture.dispose();
+        ballBlueMediumTexture.dispose();
         backgroundTexture.dispose();
         wallTexture.dispose();
         squarePinkTexture.dispose();
