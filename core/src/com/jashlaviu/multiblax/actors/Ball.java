@@ -10,27 +10,30 @@ public class Ball extends ActorGeneric{
 	public static final int SIZE_3 = 3;
 	public static final int SIZE_4 = 4;
 	
-    private float gravity, maxSpeedY;
+    private float gravity, maxSpeedY, bounceAmount;
     private int size;
 
     public Ball (float posX, float posY, int size){
         super(posX, posY);
         this.size = size;
         
+        gravity = -1400;
+        maxSpeedY = 1000;
+        bounceAmount = 600;
+        
         if(size == SIZE_3){
+        	bounceAmount = 800;
         	setRegion(TextureLoader.ballBlueBigRegion);        	
         }
         if(size == SIZE_2){
+        	bounceAmount = 700;
         	setRegion(TextureLoader.ballBlueMediumRegion);
         }
         if(size == SIZE_1){
+        	bounceAmount = 600;
         	setRegion(TextureLoader.ballBlueSmallRegion);
         }
         setCollisionBounds(posX, posY, getWidth(), getHeight());
-        
-        gravity = -650;
-        maxSpeedY = 1000;
-
     }
 
     @Override
@@ -48,9 +51,13 @@ public class Ball extends ActorGeneric{
     public void bounceX(){
         velocity.x = -velocity.x;
     }
+    
+    public void bounceY(float factor){
+    	velocity.y = bounceAmount * factor;
+    }
 
     public void bounceY(){
-        velocity.y = 600;
+        bounceY(1);
     }
     
     public int getSize(){

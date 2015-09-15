@@ -17,34 +17,34 @@ public class TextureLoader {
     public static TextureRegion squarePinkRegion, shootLong0Region;
 
     public TextureLoader(){
-        shootLong0Texture = new Texture(Gdx.files.internal("shoot_long_0.png"));
+        shootLong0Texture = new Texture(Gdx.files.internal("shoot_long_05.png"));
         shootLong0Region = new TextureRegion(shootLong0Texture);
 
         squarePinkTexture = new Texture(Gdx.files.internal("square_pink.png"));
         squarePinkRegion = new TextureRegion(squarePinkTexture);
 
-        wallTexture = new Texture(Gdx.files.internal("wall_test.png"));
+        wallTexture = new Texture(Gdx.files.internal("wall_01.png"));
         wallRegion = new TextureRegion(wallTexture);
 
-        backgroundTexture = new Texture(Gdx.files.internal("background_0.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("background_01.png"));
         backgroundRegion = new TextureRegion(backgroundTexture);
 
-        ballBlueBigTexture = new Texture(Gdx.files.internal("ball_blue_big.png"));
+        ballBlueBigTexture = new Texture(Gdx.files.internal("ball_01_3.png"));
         ballBlueBigRegion = new TextureRegion(ballBlueBigTexture);
         
-        ballBlueMediumTexture = new Texture(Gdx.files.internal("ball_blue_medium.png"));
+        ballBlueMediumTexture = new Texture(Gdx.files.internal("ball_01_2.png"));
         ballBlueMediumRegion = new TextureRegion(ballBlueMediumTexture);
         
-        ballBlueSmallTexture = new Texture(Gdx.files.internal("ball_blue_small.png"));
+        ballBlueSmallTexture = new Texture(Gdx.files.internal("ball_01_1.png"));
         ballBlueSmallRegion = new TextureRegion(ballBlueSmallTexture);
 
-        playerTexture = new Texture(Gdx.files.internal("player_test.png"));
+        playerTexture = new Texture(Gdx.files.internal("player_01.png"));
         playerRegion = new TextureRegion(playerTexture);
 
         noTextureTexture = new Texture(Gdx.files.internal("error_texture.png"));
         noTextureRegion = new TextureRegion(noTextureTexture);
 
-        floorTexture = new Texture(Gdx.files.internal("floor_test.png"));
+        floorTexture = new Texture(Gdx.files.internal("floor_01.png"));
         floorRegion = new TextureRegion(floorTexture);
     }
 

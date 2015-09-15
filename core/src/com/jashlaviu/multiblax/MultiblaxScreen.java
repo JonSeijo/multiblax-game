@@ -28,7 +28,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     private OrthographicCamera camera;
 
     private Array<Ball> balls;
-    private Array<Shoot> shoots;
+    private Array<ShootLong> shoots;
 
     private float shootTimer = 0;
 
@@ -47,7 +47,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         ball2.setVelocityX(-200);
 
         balls = new Array<Ball>();
-        shoots = new Array<Shoot>();
+        shoots = new Array<ShootLong>();
 
         balls.add(ball);
         balls.add(ball2);
@@ -81,7 +81,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         Rectangle b1Bounds = ball.getCollisionBounds();
         shaper.begin(ShapeRenderer.ShapeType.Line);
         shaper.setColor(0,0,0,1);
-        shaper.rect(pBounds.x, pBounds.y, pBounds.width, pBounds.height);
+       // shaper.rect(pBounds.x, pBounds.y, pBounds.width, pBounds.height);
       //  shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
         shaper.end();
         
@@ -97,14 +97,19 @@ public class MultiblaxScreen extends ScreenAdapter{
     	
     	ball.remove();
     	if(ball.getSize() > 1){
+    		float newVelX = 150f;
+    		float bounceFactor = 0.75f;
+    		
 	    	Ball newBall1 = new Ball(shootBounds.x - ball.getWidth() - 1,
 	    			ball.getY(), ball.getSize()-1);
-	    	newBall1.setVelocityX(-150f);
-	    	newBall1.setVelocityY(400);
+	    	newBall1.setVelocityX(-newVelX);
+	    	newBall1.bounceY(bounceFactor);
+	    	
 	    	Ball newBall2 = new Ball(shootBounds.x + shootBounds.getWidth() + 1,
 	    			ball.getY(), ball.getSize()-1);
-	    	newBall2.setVelocityX(150f);
-	    	newBall2.setVelocityY(400);
+	    	newBall2.setVelocityX(newVelX);
+	    	newBall2.bounceY(bounceFactor);
+	    	
 	    	balls.add(newBall1);
 	    	balls.add(newBall2);
 	    	
@@ -114,7 +119,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     }
 
     public void shoot(){
-        Shoot shoot = new Shoot(player.getX(), player.getY());
+        ShootLong shoot = new ShootLong(player.getX(), player.getY());
         shoots.add(shoot);
         stage.addActor(shoot);
     }
@@ -147,19 +152,22 @@ public class MultiblaxScreen extends ScreenAdapter{
         shaper.begin(ShapeRenderer.ShapeType.Line);
         shaper.setColor(0,0,0,1);
 
-        Iterator<Shoot> shootIterator = shoots.iterator();
+        Iterator<ShootLong> shootIterator = shoots.iterator();
         while(shootIterator.hasNext()){
 
-            Shoot shoot = shootIterator.next();
+            ShootLong shoot = shootIterator.next();
             shoot.updateY(delta);
             Rectangle shootBounds = shoot.getCollisionBounds();
 
-            shaper.rect(shootBounds.x, shootBounds.y, shootBounds.width, shootBounds.height);
+//            shaper.rect(shootBounds.x, shootBounds.y, shootBounds.width, shootBounds.height);
 
             if(shootBounds.getY() + shootBounds.getHeight() > roof.getY()){
                 shoot.remove(); //Remove from stage
                 shootIterator.remove();  //Remove from Array
+                continue;
             }
+            
+            boolean ballDestroyed = false;
             
             Iterator<Ball> ballIterator = balls.iterator();
             while(ballIterator.hasNext()){
@@ -167,10 +175,14 @@ public class MultiblaxScreen extends ScreenAdapter{
             	if(shoot.collides(ball)){
             		ballIterator.remove();
             		divideBall(ball, shootBounds);
-            		shoot.remove();
-            		shootIterator.remove();
+            		ballDestroyed = true;
             		break;
             	}
+            }
+            
+            if(ballDestroyed){
+        		shoot.remove();
+        		shootIterator.remove();
             }
         }
 
