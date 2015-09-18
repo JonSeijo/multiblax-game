@@ -23,15 +23,15 @@ public class Ball extends ActorGeneric{
         
         if(size == SIZE_3){
         	bounceAmount = 800;
-        	setRegion(TextureLoader.ballBlueBigRegion);        	
+        	setRegion(TextureLoader.ballBlueBig);        	
         }
         if(size == SIZE_2){
         	bounceAmount = 700;
-        	setRegion(TextureLoader.ballBlueMediumRegion);
+        	setRegion(TextureLoader.ballBlueMedium);
         }
         if(size == SIZE_1){
         	bounceAmount = 600;
-        	setRegion(TextureLoader.ballBlueSmallRegion);
+        	setRegion(TextureLoader.ballBlueSmall);
         }
         setCollisionBounds(posX, posY, getWidth(), getHeight());
     }

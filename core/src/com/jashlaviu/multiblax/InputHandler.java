@@ -30,7 +30,7 @@ public class InputHandler extends InputAdapter{
             movementInput[MOVE_LEFT] = true;
             return true;
         }
-        if(keycode == Input.Keys.UP){
+        if(keycode == Input.Keys.SPACE || keycode == Input.Keys.UP){
             movementInput[MOVE_UP] = true;
             return true;
         }
@@ -51,7 +51,7 @@ public class InputHandler extends InputAdapter{
             movementInput[MOVE_LEFT] = false;
             return true;
         }
-        if(keycode == Input.Keys.UP){
+        if(keycode == Input.Keys.SPACE || keycode == Input.Keys.UP){
             movementInput[MOVE_UP] = false;
             return true;
         }

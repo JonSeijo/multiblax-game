@@ -11,7 +11,7 @@ public class ShootLong extends ActorGeneric{
 	
     public ShootLong (float posX, float posY){
         super(posX, posY);
-        setRegion(new TextureRegion(TextureLoader.shootLong0Region));
+        setRegion(new TextureRegion(TextureLoader.shootLongNormal));
         
         collisionBounds = new Rectangle(posX, posY, 12, 0);
         setCollisionBounds(posX, posY, 12,0);

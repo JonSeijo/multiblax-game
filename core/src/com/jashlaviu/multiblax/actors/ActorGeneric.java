@@ -21,7 +21,7 @@ public class ActorGeneric extends Actor{
 
 
     public ActorGeneric(float posX, float posY){
-        setRegion(TextureLoader.noTextureRegion);
+        setRegion(TextureLoader.noTexture);
         collisionBoundsOffset = new Vector2(0, 0);
         collisionBounds = new Rectangle(posX, posY, getWidth(), getHeight());
 

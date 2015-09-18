@@ -1,0 +1,136 @@
+
+multiblax_atlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 265
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: 1
+floor
+  rotate: false
+  xy: 1, 183
+  size: 800, 80
+  orig: 800, 80
+  offset: 0, 0
+  index: 2
+floor
+  rotate: false
+  xy: 1, 101
+  size: 800, 80
+  orig: 800, 80
+  offset: 0, 0
+  index: 1
+shoot_long
+  rotate: false
+  xy: 803, 265
+  size: 12, 600
+  orig: 12, 600
+  offset: 0, 0
+  index: 3
+shoot_long
+  rotate: false
+  xy: 817, 265
+  size: 12, 600
+  orig: 12, 600
+  offset: 0, 0
+  index: 4
+shoot_long
+  rotate: false
+  xy: 831, 265
+  size: 12, 600
+  orig: 12, 600
+  offset: 0, 0
+  index: 2
+shoot_long
+  rotate: false
+  xy: 845, 265
+  size: 8, 600
+  orig: 8, 600
+  offset: 0, 0
+  index: 5
+wall
+  rotate: false
+  xy: 855, 425
+  size: 80, 440
+  orig: 80, 440
+  offset: 0, 0
+  index: 1
+wall
+  rotate: false
+  xy: 937, 425
+  size: 80, 440
+  orig: 80, 440
+  offset: 0, 0
+  index: 2
+error_texture
+  rotate: false
+  xy: 1, 35
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+ball_01
+  rotate: false
+  xy: 855, 359
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+player_test
+  rotate: false
+  xy: 803, 199
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+ball_01
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+square_blue
+  rotate: false
+  xy: 67, 67
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 855, 325
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+square_pink
+  rotate: false
+  xy: 921, 391
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ball_01
+  rotate: false
+  xy: 803, 181
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+
+multiblax_atlas2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 1
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: 2

@@ -22,7 +22,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     private Stage stage;
     private Player player;
     private Wall floor, roof, wallRight, wallLeft;
-    private Ball ball, ball2;
+    private Ball ball, ball2, ball3, ball4;
 
     private InputHandler inputHandler;
     private OrthographicCamera camera;
@@ -45,12 +45,21 @@ public class MultiblaxScreen extends ScreenAdapter{
 
         ball2 = new Ball(400, 300, Ball.SIZE_3);
         ball2.setVelocityX(-200);
+        
+        ball3 = new Ball(500, 200, Ball.SIZE_3);
+        ball3.setVelocityX(200);
+        
+        ball4 = new Ball(200, 200, Ball.SIZE_3);
+        ball4.setVelocityX(200);
 
         balls = new Array<Ball>();
         shoots = new Array<ShootLong>();
 
         balls.add(ball);
         balls.add(ball2);
+        balls.add(ball3);
+        balls.add(ball4);
+
 
         floor = new Wall(0, 0, Wall.FLOOR);
         roof = new Wall(0, 520, Wall.ROOF);

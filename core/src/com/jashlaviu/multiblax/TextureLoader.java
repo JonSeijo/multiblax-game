@@ -2,63 +2,38 @@ package com.jashlaviu.multiblax;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureLoader {
-
-    private Texture playerTexture, floorTexture, noTextureTexture;
-    private Texture ballBlueBigTexture, ballBlueMediumTexture, ballBlueSmallTexture; 
-    private Texture backgroundTexture, wallTexture;
-    private Texture squarePinkTexture, shootLong0Texture;
-
-    public static TextureRegion playerRegion, floorRegion, noTextureRegion;
-    public static TextureRegion ballBlueBigRegion, ballBlueMediumRegion, ballBlueSmallRegion;
-    public static TextureRegion backgroundRegion, wallRegion;
-    public static TextureRegion squarePinkRegion, shootLong0Region;
-
+    
+    private TextureAtlas atlas;
+    
+    public static TextureRegion noTexture;
+    public static TextureRegion shootLongNormal, shootLongFreeze, shootBullet;
+    public static TextureRegion playerNormal;
+    public static TextureRegion ballBlueBig, ballBlueMedium, ballBlueSmall;
+    public static TextureRegion background1, floor, wall;
+    
     public TextureLoader(){
-        shootLong0Texture = new Texture(Gdx.files.internal("shoot_long_05.png"));
-        shootLong0Region = new TextureRegion(shootLong0Texture);
-
-        squarePinkTexture = new Texture(Gdx.files.internal("square_pink.png"));
-        squarePinkRegion = new TextureRegion(squarePinkTexture);
-
-        wallTexture = new Texture(Gdx.files.internal("wall_01.png"));
-        wallRegion = new TextureRegion(wallTexture);
-
-        backgroundTexture = new Texture(Gdx.files.internal("background_01.png"));
-        backgroundRegion = new TextureRegion(backgroundTexture);
-
-        ballBlueBigTexture = new Texture(Gdx.files.internal("ball_01_3.png"));
-        ballBlueBigRegion = new TextureRegion(ballBlueBigTexture);
-        
-        ballBlueMediumTexture = new Texture(Gdx.files.internal("ball_01_2.png"));
-        ballBlueMediumRegion = new TextureRegion(ballBlueMediumTexture);
-        
-        ballBlueSmallTexture = new Texture(Gdx.files.internal("ball_01_1.png"));
-        ballBlueSmallRegion = new TextureRegion(ballBlueSmallTexture);
-
-        playerTexture = new Texture(Gdx.files.internal("player_01.png"));
-        playerRegion = new TextureRegion(playerTexture);
-
-        noTextureTexture = new Texture(Gdx.files.internal("error_texture.png"));
-        noTextureRegion = new TextureRegion(noTextureTexture);
-
-        floorTexture = new Texture(Gdx.files.internal("floor_01.png"));
-        floorRegion = new TextureRegion(floorTexture);
+    	atlas = new TextureAtlas(Gdx.files.internal("multiblax_atlas.atlas"));
+    	
+    	noTexture = atlas.findRegion("error_texture");
+    	
+    	shootLongNormal = atlas.findRegion("shoot_long", 5);
+    	playerNormal = atlas.findRegion("player", 1);
+    	
+    	ballBlueBig = atlas.findRegion("ball_01", 3);
+    	ballBlueMedium = atlas.findRegion("ball_01", 2);
+    	ballBlueSmall = atlas.findRegion("ball_01", 1);
+    	
+    	background1 = atlas.findRegion("background", 1);
+    	floor = atlas.findRegion("floor", 1);
+    	wall = atlas.findRegion("wall", 1);
     }
 
     public void dispose(){
-        playerTexture.dispose();
-        floorTexture.dispose();
-        noTextureTexture.dispose();
-        ballBlueBigTexture.dispose();
-        ballBlueMediumTexture.dispose();
-        ballBlueMediumTexture.dispose();
-        backgroundTexture.dispose();
-        wallTexture.dispose();
-        squarePinkTexture.dispose();
-        shootLong0Texture.dispose();
+    	atlas.dispose();
     }
 
 }

@@ -17,10 +17,10 @@ public class Wall extends ActorGeneric {
         this.type = type;
 
         if(type == FLOOR || type == ROOF) {
-            setRegion(TextureLoader.floorRegion);
+            setRegion(TextureLoader.floor);
         }
         if(type == SIDE_LEFT || type == SIDE_RIGHT) {
-            setRegion(TextureLoader.wallRegion);
+            setRegion(TextureLoader.wall);
         }
 
         setCollisionBounds(posX, posY, getWidth(), getHeight());

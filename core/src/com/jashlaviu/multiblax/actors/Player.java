@@ -15,7 +15,7 @@ public class Player extends ActorGeneric {
     public Player(float posX, float posY){
         super(posX, posY);
 
-        setRegion(TextureLoader.playerRegion);
+        setRegion(TextureLoader.playerNormal);
         setCollisionBounds(getX(), getY(), getWidth(), getHeight());
 
         gravity = -650;
@@ -24,7 +24,7 @@ public class Player extends ActorGeneric {
         velocity.x = sideSpeed;
 
         rightMovement = leftMovement = 0;
-        maxShoots = 2;
+        maxShoots = 1;
         shootTime = .5f;
 
     }

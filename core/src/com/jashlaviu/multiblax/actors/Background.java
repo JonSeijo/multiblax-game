@@ -6,6 +6,6 @@ public class Background extends ActorGeneric{
 
     public Background (){
         super(0, 0);
-        setRegion(TextureLoader.backgroundRegion);
+        setRegion(TextureLoader.background1);
     }
 }
