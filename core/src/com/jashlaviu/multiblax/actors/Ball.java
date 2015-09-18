@@ -33,14 +33,18 @@ public class Ball extends ActorGeneric{
         	bounceAmount = 600;
         	setRegion(TextureLoader.ballBlueSmall);
         }
+        
+        // Collision bounds changes with respect of the ball size
         setCollisionBounds(posX, posY, getWidth(), getHeight());
     }
 
     @Override
     public void updateY(float delta){
+    	// There is a limit to the falling speed
         if(Math.abs(velocity.y) < maxSpeedY) {
             velocity.y += gravity * delta;
         }
+        // Change the Y position using the velicity
         this.moveBy(0, MathUtils.round(velocity.y * delta));
     }
     

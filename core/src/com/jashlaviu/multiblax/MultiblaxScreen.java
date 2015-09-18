@@ -94,11 +94,6 @@ public class MultiblaxScreen extends ScreenAdapter{
       //  shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
         shaper.end();
         
-        // Estoy re-dibujando el piso para tapar el disparo
-        stage.getBatch().begin();
-        floor.draw(stage.getBatch(), 0);
-        stage.getBatch().end();
-
         movePlayer();
     }
     
@@ -128,7 +123,10 @@ public class MultiblaxScreen extends ScreenAdapter{
     }
 
     public void shoot(){
-        ShootLong shoot = new ShootLong(player.getX(), player.getY());
+    	// create a new shoot in the player position
+        ShootLong shoot = new ShootLong(player.getX() + player.getWidth()/2
+        		-TextureLoader.shootLongNormal.getRegionWidth()/2
+        		, player.getY());
         shoots.add(shoot);
         stage.addActor(shoot);
     }

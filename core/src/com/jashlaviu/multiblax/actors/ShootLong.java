@@ -7,37 +7,29 @@ import com.jashlaviu.multiblax.TextureLoader;
 
 public class ShootLong extends ActorGeneric{
 	
-	private float flipTime, flipTimeMax;
-	
     public ShootLong (float posX, float posY){
         super(posX, posY);
         setRegion(new TextureRegion(TextureLoader.shootLongNormal));
         
+        // The height is zero, it will grow every frame
         collisionBounds = new Rectangle(posX, posY, 12, 0);
         setCollisionBounds(posX, posY, 12,0);
-       // System.out.println(posX);
 
-        velocity.y = 600; //previous one 370
-        flipTimeMax = 0.085f;
+        velocity.y = 600;
+       
     }
     
     @Override
     public void updateY(float delta){
+    	// Makes the shoot higher, its not a bullet    	
     	collisionBounds.height += Math.round(velocity.y * delta);
-    	
-    	flipTime += delta;
-    	if(flipTime > flipTimeMax){
-    		flipTime = 0;
-    		region.flip(true, false);
-    	} 
-    	
     }
     
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(getRegion(), getX(), (collisionBounds.y + collisionBounds.height)-getHeight(),
+        batch.draw(getRegion(), getX(), getY(),
                 getOriginX(), getOriginY(),
-                getWidth(), getHeight(),
+                getWidth(), collisionBounds.height, //collisionBounds.height,
                 getScaleX(), getScaleY(), getRotation());
     }
    
