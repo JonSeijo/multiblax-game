@@ -14,22 +14,25 @@ public class TextureLoader {
     public static TextureRegion playerNormal;
     public static TextureRegion ballBlueBig, ballBlueMedium, ballBlueSmall;
     public static TextureRegion background1, floor, wall;
+    public static TextureRegion hearth;
     
     public TextureLoader(){
     	atlas = new TextureAtlas(Gdx.files.internal("multiblax_atlas.atlas"));
     	
     	noTexture = atlas.findRegion("error_texture");
     	
-    	shootLongNormal = atlas.findRegion("shoot_long", 5);
-    	playerNormal = atlas.findRegion("player", 1);
+    	shootLongNormal = atlas.findRegion("shoot_long", 6);
+    	playerNormal = atlas.findRegion("player", 2);
     	
-    	ballBlueBig = atlas.findRegion("ball_01", 3);
-    	ballBlueMedium = atlas.findRegion("ball_01", 2);
-    	ballBlueSmall = atlas.findRegion("ball_01", 1);
+    	hearth = atlas.findRegion("hearth", 1);
     	
-    	background1 = atlas.findRegion("background", 1);
-    	floor = atlas.findRegion("floor", 1);
-    	wall = atlas.findRegion("wall", 1);
+    	ballBlueBig = atlas.findRegion("ball_02", 3);
+    	ballBlueMedium = atlas.findRegion("ball_02", 2);
+    	ballBlueSmall = atlas.findRegion("ball_02", 1);
+    	
+    	background1 = atlas.findRegion("background", 2);
+    	floor = atlas.findRegion("floor", 2);
+    	wall = atlas.findRegion("wall", 2);
     }
 
     public void dispose(){

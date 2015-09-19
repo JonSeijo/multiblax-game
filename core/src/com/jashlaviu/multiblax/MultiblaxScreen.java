@@ -31,6 +31,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     private Array<ShootLong> shoots;
 
     private float shootTimer = 0;
+    private int lives;
 
     public ShapeRenderer shaper = new ShapeRenderer();
 
@@ -39,35 +40,9 @@ public class MultiblaxScreen extends ScreenAdapter{
         camera = new OrthographicCamera();
         stage = new Stage(new FitViewport(800, 600, camera), batch);
 
-        player = new Player(100f, 390f);
-        ball = new Ball(300, 400, Ball.SIZE_3);
-        ball.setVelocityX(200);
-
-        ball2 = new Ball(400, 300, Ball.SIZE_3);
-        ball2.setVelocityX(-200);
+        lives = 5;
+        resetLevel();
         
-        ball3 = new Ball(500, 200, Ball.SIZE_3);
-        ball3.setVelocityX(200);
-        
-        ball4 = new Ball(200, 200, Ball.SIZE_3);
-        ball4.setVelocityX(200);
-
-        balls = new Array<Ball>();
-        shoots = new Array<ShootLong>();
-
-        balls.add(ball);
-        balls.add(ball2);
-        balls.add(ball3);
-        balls.add(ball4);
-
-
-        floor = new Wall(0, 0, Wall.FLOOR);
-        roof = new Wall(0, 520, Wall.ROOF);
-        wallLeft = new Wall(-40, 80, Wall.SIDE_LEFT);
-        wallRight = new Wall(760, 80, Wall.SIDE_RIGHT);
-
-        addActorsToStage();
-
         inputHandler = new InputHandler(this);
         Gdx.input.setInputProcessor(inputHandler);
 
@@ -94,7 +69,45 @@ public class MultiblaxScreen extends ScreenAdapter{
       //  shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
         shaper.end();
         
+        
+        stage.getBatch().begin();
+        for(int i = 0; i < lives; i++){
+        	stage.getBatch().draw(TextureLoader.hearth, 50 + i*50, 550);
+        }
+        stage.getBatch().end();
+        
         movePlayer();
+    }
+    
+    
+    public void resetLevel(){
+        floor = new Wall(0, 0, Wall.FLOOR);
+        roof = new Wall(0, 520, Wall.ROOF);
+        wallLeft = new Wall(-40, 80, Wall.SIDE_LEFT);
+        wallRight = new Wall(760, 80, Wall.SIDE_RIGHT);
+        
+        player = new Player(200f, 100);
+        ball = new Ball(300, 400, Ball.SIZE_3);
+        ball.setVelocityX(200);
+
+        ball2 = new Ball(400, 300, Ball.SIZE_3);
+        ball2.setVelocityX(-200);
+        
+        ball3 = new Ball(500, 200, Ball.SIZE_3);
+        ball3.setVelocityX(200);
+        
+        ball4 = new Ball(200, 200, Ball.SIZE_3);
+        ball4.setVelocityX(200);
+
+        balls = new Array<Ball>();
+        shoots = new Array<ShootLong>();
+
+        balls.add(ball);
+        balls.add(ball2);
+        balls.add(ball3);
+        //balls.add(ball4);
+        
+        addActorsToStage();
     }
     
     public void divideBall(Ball ball, Rectangle shootBounds){
@@ -179,6 +192,7 @@ public class MultiblaxScreen extends ScreenAdapter{
             Iterator<Ball> ballIterator = balls.iterator();
             while(ballIterator.hasNext()){
             	Ball ball = ballIterator.next();
+            	
             	if(shoot.collides(ball)){
             		ballIterator.remove();
             		divideBall(ball, shootBounds);
@@ -219,6 +233,12 @@ public class MultiblaxScreen extends ScreenAdapter{
                         - bBounds.width
                         - ball.getCollisionOffsetX()));
                 ball.bounceX();
+            }
+            
+            if(ball.collides(player)){
+            	lives--;
+            	resetLevel();
+            	break;
             }
         }
     }

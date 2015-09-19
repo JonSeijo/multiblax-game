@@ -5,119 +5,161 @@ filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 1, 265
+  xy: 1, 299
   size: 800, 600
   orig: 800, 600
   offset: 0, 0
   index: 1
 floor
   rotate: false
-  xy: 1, 183
+  xy: 1, 217
   size: 800, 80
   orig: 800, 80
   offset: 0, 0
   index: 2
 floor
   rotate: false
-  xy: 1, 101
+  xy: 1, 135
   size: 800, 80
   orig: 800, 80
   offset: 0, 0
   index: 1
 shoot_long
   rotate: false
-  xy: 803, 265
+  xy: 803, 299
   size: 12, 600
   orig: 12, 600
   offset: 0, 0
   index: 3
 shoot_long
   rotate: false
-  xy: 817, 265
+  xy: 817, 299
   size: 12, 600
   orig: 12, 600
   offset: 0, 0
   index: 4
 shoot_long
   rotate: false
-  xy: 831, 265
+  xy: 831, 299
   size: 12, 600
   orig: 12, 600
   offset: 0, 0
   index: 2
 shoot_long
   rotate: false
-  xy: 845, 265
+  xy: 845, 299
   size: 8, 600
   orig: 8, 600
   offset: 0, 0
   index: 5
+shoot_long
+  rotate: false
+  xy: 855, 299
+  size: 8, 600
+  orig: 8, 600
+  offset: 0, 0
+  index: 6
 wall
   rotate: false
-  xy: 855, 425
+  xy: 865, 459
   size: 80, 440
   orig: 80, 440
   offset: 0, 0
   index: 1
 wall
   rotate: false
-  xy: 937, 425
+  xy: 865, 17
   size: 80, 440
   orig: 80, 440
   offset: 0, 0
   index: 2
+ball_02
+  rotate: false
+  xy: 947, 835
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
 error_texture
   rotate: false
-  xy: 1, 35
+  xy: 1, 69
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 ball_01
   rotate: false
-  xy: 855, 359
+  xy: 947, 769
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 player_test
   rotate: false
-  xy: 803, 199
+  xy: 803, 233
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 ball_01
   rotate: false
-  xy: 1, 1
+  xy: 1, 35
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 square_blue
   rotate: false
-  xy: 67, 67
+  xy: 67, 101
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 855, 325
+  xy: 947, 735
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
+ball_02
+  rotate: false
+  xy: 803, 199
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+player
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
 square_pink
   rotate: false
-  xy: 921, 391
+  xy: 101, 101
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+hearth
+  rotate: false
+  xy: 67, 71
+  size: 32, 28
+  orig: 32, 28
+  offset: 0, 0
+  index: 1
+ball_02
+  rotate: false
+  xy: 837, 281
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
 ball_01
   rotate: false
-  xy: 803, 181
+  xy: 35, 51
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
