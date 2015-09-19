@@ -17,20 +17,20 @@ public class Ball extends ActorGeneric{
         super(posX, posY);
         this.size = size;
         
-        gravity = -1400;
+        gravity = -800; //-1400
         maxSpeedY = 1000;
-        bounceAmount = 600;
+        bounceAmount = 400; //600
         
         if(size == SIZE_3){
-        	bounceAmount = 800;
+        	bounceAmount = 500; //800
         	setRegion(TextureLoader.ballBlueBig);        	
         }
         if(size == SIZE_2){
-        	bounceAmount = 700;
+        	bounceAmount = 400; //700
         	setRegion(TextureLoader.ballBlueMedium);
         }
         if(size == SIZE_1){
-        	bounceAmount = 600;
+        	bounceAmount = 300; //600
         	setRegion(TextureLoader.ballBlueSmall);
         }
         

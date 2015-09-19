@@ -56,20 +56,11 @@ public class MultiblaxScreen extends ScreenAdapter{
         updateBalls(delta);
         updatePlayer(delta);
 
-
         stage.draw();
         updateShoots(delta);
         stage.act(delta);
         
-        Rectangle pBounds = player.getCollisionBounds();
-        Rectangle b1Bounds = ball.getCollisionBounds();
-        shaper.begin(ShapeRenderer.ShapeType.Line);
-        shaper.setColor(0,0,0,1);
-       // shaper.rect(pBounds.x, pBounds.y, pBounds.width, pBounds.height);
-      //  shaper.rect(b1Bounds.x, b1Bounds.y, b1Bounds.width, b1Bounds.height);
-        shaper.end();
-        
-        
+        // Draw hearts
         stage.getBatch().begin();
         for(int i = 0; i < lives; i++){
         	stage.getBatch().draw(TextureLoader.hearth, 50 + i*50, 550);
@@ -86,18 +77,20 @@ public class MultiblaxScreen extends ScreenAdapter{
         wallLeft = new Wall(-40, 80, Wall.SIDE_LEFT);
         wallRight = new Wall(760, 80, Wall.SIDE_RIGHT);
         
+        int startVel = 110;
+        
         player = new Player(200f, 100);
         ball = new Ball(300, 400, Ball.SIZE_3);
-        ball.setVelocityX(200);
+        ball.setVelocityX(startVel);
 
         ball2 = new Ball(400, 300, Ball.SIZE_3);
-        ball2.setVelocityX(-200);
+        ball2.setVelocityX(-startVel);
         
         ball3 = new Ball(500, 200, Ball.SIZE_3);
-        ball3.setVelocityX(200);
+        ball3.setVelocityX(startVel);
         
         ball4 = new Ball(200, 200, Ball.SIZE_3);
-        ball4.setVelocityX(200);
+        ball4.setVelocityX(startVel);
 
         balls = new Array<Ball>();
         shoots = new Array<ShootLong>();
@@ -114,7 +107,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     	
     	ball.remove();
     	if(ball.getSize() > 1){
-    		float newVelX = 150f;
+    		float newVelX = 110f; //150
     		float bounceFactor = 0.75f;
     		
 	    	Ball newBall1 = new Ball(shootBounds.x - ball.getWidth() - 1,
@@ -147,6 +140,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     private void updatePlayer(float delta){
         player.updateY(delta);
         Rectangle pBounds = player.getCollisionBounds();
+        // Handle floor collision
         if(pBounds.y < floor.getTop()){
             player.setY(Math.round(floor.getTop() - player.getCollisionOffsetY()));
             player.setVelocityY(0);
@@ -154,11 +148,13 @@ public class MultiblaxScreen extends ScreenAdapter{
 
         player.updateX(delta);
         pBounds = player.getCollisionBounds();
+        // Handle left wall collision
         if(pBounds.x < wallLeft.getRight()){
             player.setX(Math.round(wallLeft.getRight() + player.getCollisionOffsetX()));
             player.setVelocityX(0);
         }
-
+        
+        // Handle right wall collision
         if(pBounds.x + pBounds.width > wallRight.getX()){
             player.setX(Math.round(wallRight.getX() - pBounds.width - player.getCollisionOffsetX()));
             player.setVelocityX(0);
@@ -169,9 +165,6 @@ public class MultiblaxScreen extends ScreenAdapter{
     private void updateShoots(float delta){
         shootTimer += delta;
 
-        shaper.begin(ShapeRenderer.ShapeType.Line);
-        shaper.setColor(0,0,0,1);
-
         Iterator<ShootLong> shootIterator = shoots.iterator();
         while(shootIterator.hasNext()){
 
@@ -179,8 +172,7 @@ public class MultiblaxScreen extends ScreenAdapter{
             shoot.updateY(delta);
             Rectangle shootBounds = shoot.getCollisionBounds();
 
-//            shaper.rect(shootBounds.x, shootBounds.y, shootBounds.width, shootBounds.height);
-
+            // Destroy shoot if collides with roof
             if(shootBounds.getY() + shootBounds.getHeight() > roof.getY()){
                 shoot.remove(); //Remove from stage
                 shootIterator.remove();  //Remove from Array
@@ -201,13 +193,13 @@ public class MultiblaxScreen extends ScreenAdapter{
             	}
             }
             
+            // Destroy shoot if ball was hit
             if(ballDestroyed){
         		shoot.remove();
         		shootIterator.remove();
             }
         }
 
-        shaper.end();
     }
 
     private void updateBalls(float delta){
