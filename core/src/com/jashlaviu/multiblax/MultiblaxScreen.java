@@ -45,7 +45,6 @@ public class MultiblaxScreen extends ScreenAdapter{
         
         inputHandler = new InputHandler(this);
         Gdx.input.setInputProcessor(inputHandler);
-
     }
 
     @Override
@@ -106,15 +105,18 @@ public class MultiblaxScreen extends ScreenAdapter{
     public void divideBall(Ball ball, Rectangle shootBounds){
     	
     	ball.remove();
+    	// Only divide if not the smallest one
     	if(ball.getSize() > 1){
     		float newVelX = 110f; //150
     		float bounceFactor = 0.75f;
     		
+    		// Create smaller ball bouncing left
 	    	Ball newBall1 = new Ball(shootBounds.x - ball.getWidth() - 1,
 	    			ball.getY(), ball.getSize()-1);
 	    	newBall1.setVelocityX(-newVelX);
 	    	newBall1.bounceY(bounceFactor);
 	    	
+	    	// Create smaller ball bouncing right
 	    	Ball newBall2 = new Ball(shootBounds.x + shootBounds.getWidth() + 1,
 	    			ball.getY(), ball.getSize()-1);
 	    	newBall2.setVelocityX(newVelX);
@@ -129,7 +131,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     }
 
     public void shoot(){
-    	// create a new shoot in the player position
+    	// Create a new shoot in the player position
         ShootLong shoot = new ShootLong(player.getX() + player.getWidth()/2
         		-TextureLoader.shootLongNormal.getRegionWidth()/2
         		, player.getY());

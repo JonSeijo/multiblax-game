@@ -15,8 +15,7 @@ public class ShootLong extends ActorGeneric{
         collisionBounds = new Rectangle(posX, posY, 12, 0);
         setCollisionBounds(posX, posY, 12,0);
 
-        velocity.y = 600;
-       
+        velocity.y = 600;       
     }
     
     @Override
