@@ -1,20 +1,26 @@
 package com.jashlaviu.multiblax;
 
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.jashlaviu.multiblax.actors.*;
-
-import java.util.Iterator;
+import com.jashlaviu.multiblax.actors.Background;
+import com.jashlaviu.multiblax.actors.Ball;
+import com.jashlaviu.multiblax.actors.Player;
+import com.jashlaviu.multiblax.actors.ShootLong;
+import com.jashlaviu.multiblax.actors.Wall;
 
 public class MultiblaxScreen extends ScreenAdapter{
 
@@ -34,6 +40,10 @@ public class MultiblaxScreen extends ScreenAdapter{
     private int lives;
 
     public ShapeRenderer shaper = new ShapeRenderer();
+    
+	private OrthogonalTiledMapRenderer renderer;
+    private TiledMap map;
+    
 
     public MultiblaxScreen(MultiblaxGame game){
         batch = game.getBatch();
@@ -42,6 +52,10 @@ public class MultiblaxScreen extends ScreenAdapter{
 
         lives = 5;
         resetLevel();
+        
+        map = new TmxMapLoader().load("map_0.tmx");
+        //renderer = new OrthogonalTiledMapRenderer(map, 1 / 16f);
+        renderer = new OrthogonalTiledMapRenderer(map, 1f);
         
         inputHandler = new InputHandler(this);
         Gdx.input.setInputProcessor(inputHandler);
@@ -54,7 +68,12 @@ public class MultiblaxScreen extends ScreenAdapter{
 
         updateBalls(delta);
         updatePlayer(delta);
-
+        
+        renderer.setView((OrthographicCamera) stage.getCamera());
+        renderer.render();
+        //Now render objects in your stage on top.
+        //stage.render();
+        
         stage.draw();
         updateShoots(delta);
         stage.act(delta);
@@ -71,6 +90,11 @@ public class MultiblaxScreen extends ScreenAdapter{
     
     
     public void resetLevel(){
+    	//map = new TmxMapLoader().load("map_0.tmx");
+   	 	//renderer = new OrthogonalTiledMapRenderer(map, 1f);
+    	
+    	stage = new Stage(new FitViewport(800, 600, camera), batch);
+    	
         floor = new Wall(0, 0, Wall.FLOOR);
         roof = new Wall(0, 520, Wall.ROOF);
         wallLeft = new Wall(-40, 80, Wall.SIDE_LEFT);
@@ -238,7 +262,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     }
 
     private void addActorsToStage(){
-        stage.addActor(new Background());
+       // stage.addActor(new Background());
         stage.addActor(floor);
         stage.addActor(roof);
         stage.addActor(wallLeft);
@@ -254,6 +278,8 @@ public class MultiblaxScreen extends ScreenAdapter{
     public void dispose () {
         stage.dispose();
         shaper.dispose();
+        map.dispose();
+        renderer.dispose();
     }
 
     public void movePlayer(){
