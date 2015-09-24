@@ -8,4 +8,10 @@
    eJztzzEBACAQAKHX/qGtcSoDAVgzs4Cv7Et4tHi0eLR4tHi0eLR4tHi0eLR4tHi0eLR4tPzyAN5zAJuGDAU=
   </data>
  </layer>
+ <objectgroup name="WallObjects" width="50" height="38">
+  <object name="wall" x="0" y="0" width="800" height="80"/>
+  <object name="wall" x="0" y="528" width="800" height="80"/>
+  <object name="wall" x="0" y="80" width="64" height="448"/>
+  <object name="wall" x="736" y="80" width="64" height="448"/>
+ </objectgroup>
 </map>

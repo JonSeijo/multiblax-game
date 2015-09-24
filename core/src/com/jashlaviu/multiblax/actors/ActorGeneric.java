@@ -90,6 +90,14 @@ public class ActorGeneric extends Actor{
     public float getCollisionOffsetY(){
         return collisionBoundsOffset.y;
     }
+    
+    public float getVelocityX(){
+    	return velocity.x;
+    }
+    
+    public float getVelocityY(){
+    	return velocity.y;
+    }
 
     public void setVelocityY(float y){
         velocity.y = y;

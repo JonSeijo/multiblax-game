@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -44,7 +49,8 @@ public class MultiblaxScreen extends ScreenAdapter{
 	private OrthogonalTiledMapRenderer renderer;
     private TiledMap map;
     
-
+    private Array<Rectangle> wallRects;    
+    
     public MultiblaxScreen(MultiblaxGame game){
         batch = game.getBatch();
         camera = new OrthographicCamera();
@@ -56,6 +62,23 @@ public class MultiblaxScreen extends ScreenAdapter{
         map = new TmxMapLoader().load("map_0.tmx");
         //renderer = new OrthogonalTiledMapRenderer(map, 1 / 16f);
         renderer = new OrthogonalTiledMapRenderer(map, 1f);
+        
+        wallRects = new Array<Rectangle>();
+        
+        MapLayer wallLayer = map.getLayers().get("WallObjects");
+        if(wallLayer != null){
+        	MapObjects wallObjects = wallLayer.getObjects();
+        	for (MapObject wallo : wallObjects){
+        		Rectangle rec = ((RectangleMapObject)wallo).getRectangle();
+        		wallRects.add(rec);        		
+        	}
+        	/*for(RectangleMapObject wallObj : 
+        		wallObjects.getByType(RectangleMapObject.class)){
+        		Rectangle wallRec = wallObj.getRectangle();
+        	}*/
+        }
+        
+        System.out.println(wallRects);
         
         inputHandler = new InputHandler(this);
         Gdx.input.setInputProcessor(inputHandler);
@@ -90,9 +113,6 @@ public class MultiblaxScreen extends ScreenAdapter{
     
     
     public void resetLevel(){
-    	//map = new TmxMapLoader().load("map_0.tmx");
-   	 	//renderer = new OrthogonalTiledMapRenderer(map, 1f);
-    	
     	stage = new Stage(new FitViewport(800, 600, camera), batch);
     	
         floor = new Wall(0, 0, Wall.FLOOR);
@@ -166,14 +186,42 @@ public class MultiblaxScreen extends ScreenAdapter{
     private void updatePlayer(float delta){
         player.updateY(delta);
         Rectangle pBounds = player.getCollisionBounds();
+        
         // Handle floor collision
+        for(Rectangle wallBound : wallRects){
+        	if(pBounds.overlaps(wallBound)){
+        		if(player.getVelocityY() < 0){
+        			player.setY(Math.round(wallBound.getY() + wallBound.getHeight() - player.getCollisionOffsetY()));
+                    player.setVelocityY(0);
+        		}
+        	}
+        }
+        /*
         if(pBounds.y < floor.getTop()){
             player.setY(Math.round(floor.getTop() - player.getCollisionOffsetY()));
             player.setVelocityY(0);
         }
-
+		*/
+        
         player.updateX(delta);
         pBounds = player.getCollisionBounds();
+        
+        for(Rectangle wallBound : wallRects){
+        	if(pBounds.overlaps(wallBound)){
+        		// Player moving left
+        		if(player.getVelocityX() < 0){
+        			player.setX(Math.round(wallBound.getX() + wallBound.getWidth() + player.getCollisionOffsetX()));
+                    player.setVelocityX(0);
+        		}
+        		
+        		// Player moving right
+        		if(player.getVelocityX() > 0){
+        			player.setX(Math.round(wallBound.getX() - player.getWidth() + player.getCollisionOffsetX()));
+                    player.setVelocityX(0);
+        		}
+        	}
+        }
+        /*
         // Handle left wall collision
         if(pBounds.x < wallLeft.getRight()){
             player.setX(Math.round(wallLeft.getRight() + player.getCollisionOffsetX()));
@@ -185,7 +233,7 @@ public class MultiblaxScreen extends ScreenAdapter{
             player.setX(Math.round(wallRight.getX() - pBounds.width - player.getCollisionOffsetX()));
             player.setVelocityX(0);
         }
-       
+       */
     }
 
     private void updateShoots(float delta){
