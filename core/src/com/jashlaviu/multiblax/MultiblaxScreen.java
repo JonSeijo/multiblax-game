@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
@@ -32,7 +33,6 @@ public class MultiblaxScreen extends ScreenAdapter{
     private SpriteBatch batch;
     private Stage stage;
     private Player player;
-    private Wall floor, roof, wallRight, wallLeft;
     private Ball ball, ball2, ball3, ball4;
 
     private InputHandler inputHandler;
@@ -60,7 +60,6 @@ public class MultiblaxScreen extends ScreenAdapter{
         resetLevel();
         
         map = new TmxMapLoader().load("map_0.tmx");
-        //renderer = new OrthogonalTiledMapRenderer(map, 1 / 16f);
         renderer = new OrthogonalTiledMapRenderer(map, 1f);
         
         wallRects = new Array<Rectangle>();
@@ -72,13 +71,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         		Rectangle rec = ((RectangleMapObject)wallo).getRectangle();
         		wallRects.add(rec);        		
         	}
-        	/*for(RectangleMapObject wallObj : 
-        		wallObjects.getByType(RectangleMapObject.class)){
-        		Rectangle wallRec = wallObj.getRectangle();
-        	}*/
         }
-        
-        System.out.println(wallRects);
         
         inputHandler = new InputHandler(this);
         Gdx.input.setInputProcessor(inputHandler);
@@ -107,6 +100,18 @@ public class MultiblaxScreen extends ScreenAdapter{
         	stage.getBatch().draw(TextureLoader.hearth, 50 + i*50, 550);
         }
         stage.getBatch().end();
+        
+        shaper.begin(ShapeType.Line);
+        shaper.setColor(0, 0, 0, 0);        
+        for(Rectangle rec : wallRects){
+        	shaper.rect(rec.x, rec.y, rec.width, rec.height);
+        }
+        
+        for(Ball ball : balls){
+        	Rectangle rec = ball.getCollisionBounds();
+        	shaper.rect(rec.x, rec.y, rec.width, rec.height);
+        }        
+        shaper.end();
         
         movePlayer();
     }
@@ -196,12 +201,6 @@ public class MultiblaxScreen extends ScreenAdapter{
         		}
         	}
         }
-        /*
-        if(pBounds.y < floor.getTop()){
-            player.setY(Math.round(floor.getTop() - player.getCollisionOffsetY()));
-            player.setVelocityY(0);
-        }
-		*/
         
         player.updateX(delta);
         pBounds = player.getCollisionBounds();
@@ -221,19 +220,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         		}
         	}
         }
-        /*
-        // Handle left wall collision
-        if(pBounds.x < wallLeft.getRight()){
-            player.setX(Math.round(wallLeft.getRight() + player.getCollisionOffsetX()));
-            player.setVelocityX(0);
-        }
-        
-        // Handle right wall collision
-        if(pBounds.x + pBounds.width > wallRight.getX()){
-            player.setX(Math.round(wallRight.getX() - pBounds.width - player.getCollisionOffsetX()));
-            player.setVelocityX(0);
-        }
-       */
+
     }
 
     private void updateShoots(float delta){
@@ -245,14 +232,16 @@ public class MultiblaxScreen extends ScreenAdapter{
             ShootLong shoot = shootIterator.next();
             shoot.updateY(delta);
             Rectangle shootBounds = shoot.getCollisionBounds();
-
-            // Destroy shoot if collides with roof
-            if(shootBounds.getY() + shootBounds.getHeight() > roof.getY()){
-                shoot.remove(); //Remove from stage
-                shootIterator.remove();  //Remove from Array
-                continue;
-            }
             
+            // Destroy shoot if collides with a wall
+            for(Rectangle wallBound : wallRects){
+            	if(shootBounds.overlaps(wallBound)){
+                    shoot.remove(); //Remove from stage
+                    shootIterator.remove();  //Remove from Array
+                    continue;
+            	}
+            }
+
             boolean ballDestroyed = false;
             
             Iterator<Ball> ballIterator = balls.iterator();
@@ -278,27 +267,42 @@ public class MultiblaxScreen extends ScreenAdapter{
 
     private void updateBalls(float delta){
         for(Ball ball : balls){
-            ball.updateY(delta);
-            Rectangle bBounds = ball.getCollisionBounds();
-            if(bBounds.getY() < floor.getTop()){
-                ball.setY(Math.round(floor.getTop()));
-                ball.bounceY();
-            }
 
             ball.updateX(delta);
+            Rectangle bBounds = ball.getCollisionBounds();
+            
+            for(Rectangle wallBound : wallRects){
+            	if(bBounds.overlaps(wallBound)){
+            		// (collides left)
+            		if(ball.getVelocityX() < 0){
+                        ball.setX(Math.round(wallBound.getX() + wallBound.getWidth()));
+                        ball.bounceX();
+            		}
+            		// (collides right)
+            		else if(ball.getVelocityX() > 0){
+            			ball.setX(Math.round(wallBound.getX() - bBounds.getWidth()));
+                        ball.bounceX();
+            		}
+            	}
+            }
+
+            ball.updateY(delta);
             bBounds = ball.getCollisionBounds();
             
-            if(bBounds.x < wallLeft.getRight()){
-                ball.setX(Math.round(wallLeft.getX() + wallLeft.getWidth()
-                        + ball.getCollisionOffsetX()));
-                ball.bounceX();
-            }
-            if(bBounds.x + bBounds.width > wallRight.getX()) {
-
-                ball.setX(Math.round(wallRight.getX()
-                        - bBounds.width
-                        - ball.getCollisionOffsetX()));
-                ball.bounceX();
+            
+            for(Rectangle wallBound : wallRects){
+            	if(bBounds.overlaps(wallBound)){
+            		// Is falling (collides floor)
+            		if(ball.getVelocityY() < 0){
+                        ball.setY(Math.round(wallBound.getY() + wallBound.getHeight()));
+                        ball.bounceY();
+            		}
+            		
+            		// Is going up (collides roof)
+            		else if(ball.getVelocityY() > 0){
+                        
+            		}
+            	}
             }
             
             if(ball.collides(player)){
@@ -310,12 +314,6 @@ public class MultiblaxScreen extends ScreenAdapter{
     }
 
     private void addActorsToStage(){
-       // stage.addActor(new Background());
-        stage.addActor(floor);
-        stage.addActor(roof);
-        stage.addActor(wallLeft);
-        stage.addActor(wallRight);
-
         for(Ball ball : balls){
             stage.addActor(ball);
         }
