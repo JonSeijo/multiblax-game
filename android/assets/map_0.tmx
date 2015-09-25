@@ -14,4 +14,18 @@
   <object name="wall" x="0" y="80" width="64" height="448"/>
   <object name="wall" x="736" y="80" width="64" height="448"/>
  </objectgroup>
+ <objectgroup name="BallObjects" width="50" height="38">
+  <object name="ball" type="3" x="384" y="336">
+   <properties>
+    <property name="size" value="3"/>
+    <property name="vel" value="-1"/>
+   </properties>
+  </object>
+  <object name="ball" x="560" y="320">
+   <properties>
+    <property name="size" value="3"/>
+    <property name="vel" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

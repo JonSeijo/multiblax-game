@@ -58,21 +58,7 @@ public class MultiblaxScreen extends ScreenAdapter{
 
         lives = 5;
         resetLevel();
-        
-        map = new TmxMapLoader().load("map_0.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1f);
-        
-        wallRects = new Array<Rectangle>();
-        
-        MapLayer wallLayer = map.getLayers().get("WallObjects");
-        if(wallLayer != null){
-        	MapObjects wallObjects = wallLayer.getObjects();
-        	for (MapObject wallo : wallObjects){
-        		Rectangle rec = ((RectangleMapObject)wallo).getRectangle();
-        		wallRects.add(rec);        		
-        	}
-        }
-        
+    
         inputHandler = new InputHandler(this);
         Gdx.input.setInputProcessor(inputHandler);
     }
@@ -118,35 +104,46 @@ public class MultiblaxScreen extends ScreenAdapter{
     
     
     public void resetLevel(){
-    	stage = new Stage(new FitViewport(800, 600, camera), batch);
+    	int startVel = 110;
     	
-        floor = new Wall(0, 0, Wall.FLOOR);
-        roof = new Wall(0, 520, Wall.ROOF);
-        wallLeft = new Wall(-40, 80, Wall.SIDE_LEFT);
-        wallRight = new Wall(760, 80, Wall.SIDE_RIGHT);
-        
-        int startVel = 110;
-        
+        // Load level (Should be in reset)
+        map = new TmxMapLoader().load("map_0.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1f);
+    	
+    	stage = new Stage(new FitViewport(800, 600, camera), batch);
         player = new Player(200f, 100);
-        ball = new Ball(300, 400, Ball.SIZE_3);
-        ball.setVelocityX(startVel);
-
-        ball2 = new Ball(400, 300, Ball.SIZE_3);
-        ball2.setVelocityX(-startVel);
         
-        ball3 = new Ball(500, 200, Ball.SIZE_3);
-        ball3.setVelocityX(startVel);
-        
-        ball4 = new Ball(200, 200, Ball.SIZE_3);
-        ball4.setVelocityX(startVel);
-
         balls = new Array<Ball>();
         shoots = new Array<ShootLong>();
+        wallRects = new Array<Rectangle>();
+        
+        // Create every wall collision using the tiled map
+        MapLayer wallLayer = map.getLayers().get("WallObjects");
+        if(wallLayer != null){
+        	MapObjects wallObjects = wallLayer.getObjects();
+        	for (MapObject wallo : wallObjects){
+        		Rectangle rec = ((RectangleMapObject)wallo).getRectangle();
+        		wallRects.add(rec);        		
+        	}
+        }
+        
+        // Create every ball using the tiled map
+        MapLayer ballLayer = map.getLayers().get("BallObjects");
+        if(ballLayer != null){
+        	MapObjects ballObjects = ballLayer.getObjects();
+        	for (MapObject ballo : ballObjects){
+        		Rectangle ballRec = ((RectangleMapObject)ballo).getRectangle();
+        		
+        		int size = Integer.parseInt((String) ballo.getProperties().get("size"));
+        		int vel = Integer.parseInt((String) ballo.getProperties().get("vel"));
 
-        balls.add(ball);
-        balls.add(ball2);
-        balls.add(ball3);
-        //balls.add(ball4);
+        		Ball ball = new Ball(ballRec.x, ballRec.y, size);
+                ball.setVelocityX(startVel * vel);
+                
+                // Add Ball object to the ball array ( add to stage in "addActorsToStage()" )
+                balls.add(ball);  		
+        	}
+        }
         
         addActorsToStage();
     }
