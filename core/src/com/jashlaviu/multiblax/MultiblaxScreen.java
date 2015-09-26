@@ -104,11 +104,21 @@ public class MultiblaxScreen extends ScreenAdapter{
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1f);
     	
     	stage = new Stage(new FitViewport(800, 600, camera), batch);
-        player = new Player(200f, 100);
         
         balls = new Array<Ball>();
         shoots = new Array<ShootLong>();
         wallRects = new Array<Rectangle>();
+        
+        // Create player using the tiled map position
+        MapLayer playerLayer = map.getLayers().get("PlayerObjects");
+        if(playerLayer != null){
+        	MapObjects playerObjects = playerLayer.getObjects();
+        	for (MapObject playerObj : playerObjects){
+        		Rectangle playerRec = ((RectangleMapObject)playerObj).getRectangle();
+                player = new Player(playerRec.x, playerRec.y);
+                stage.addActor(player);
+        	}
+        }
         
         // Create every wall collision using the tiled map
         MapLayer wallLayer = map.getLayers().get("WallObjects");
@@ -231,20 +241,21 @@ public class MultiblaxScreen extends ScreenAdapter{
         while(shootIterator.hasNext()){
 
             ShootLong shoot = shootIterator.next();
+            
             shoot.updateY(delta);
             Rectangle shootBounds = shoot.getCollisionBounds();
             
-            // Destroy shoot if collides with a wall
+            boolean shootNeedsRemove = false;
+            
+            // Collision with walls
             for(Rectangle wallBound : wallRects){
             	if(shootBounds.overlaps(wallBound)){
-                    shoot.remove(); //Remove from stage
-                    shootIterator.remove();  //Remove from Array
-                    continue;
+                    shootNeedsRemove = true;
+                    break;
             	}
             }
-
-            boolean ballDestroyed = false;
             
+            // Collision with balls
             Iterator<Ball> ballIterator = balls.iterator();
             while(ballIterator.hasNext()){
             	Ball ball = ballIterator.next();
@@ -252,14 +263,12 @@ public class MultiblaxScreen extends ScreenAdapter{
             	if(shoot.collides(ball)){
             		ballIterator.remove();
             		divideBall(ball, shootBounds);
-            		ballDestroyed = true;
-            		break;
+            		shootNeedsRemove = true;
             	}
             }
             
-            // Destroy shoot if ball was hit
-            if(ballDestroyed){
-        		shoot.remove();
+            if(shootNeedsRemove){
+            	shoot.remove();
         		shootIterator.remove();
         		break;
             }
@@ -269,7 +278,8 @@ public class MultiblaxScreen extends ScreenAdapter{
 
     private void updateBalls(float delta){
         for(Ball ball : balls){
-
+        	
+        	// Update X position
             ball.updateX(delta);
             Rectangle bBounds = ball.getCollisionBounds();
             
@@ -287,10 +297,10 @@ public class MultiblaxScreen extends ScreenAdapter{
             		}
             	}
             }
-
-            ball.updateY(delta);
-            bBounds = ball.getCollisionBounds();
             
+        	// Update Y position
+            ball.updateY(delta);
+            bBounds = ball.getCollisionBounds();            
             
             for(Rectangle wallBound : wallRects){
             	if(bBounds.overlaps(wallBound)){
@@ -319,7 +329,6 @@ public class MultiblaxScreen extends ScreenAdapter{
         for(Ball ball : balls){
             stage.addActor(ball);
         }
-        stage.addActor(player);
     }
 
     @Override
