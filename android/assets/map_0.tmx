@@ -27,5 +27,10 @@
     <property name="vel" value="1"/>
    </properties>
   </object>
+  <object name="ball" x="199" y="259">
+   <properties>
+    <property name="size" value=""/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

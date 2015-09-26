@@ -3,176 +3,136 @@ multiblax_atlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background
-  rotate: false
-  xy: 1, 299
-  size: 800, 600
-  orig: 800, 600
-  offset: 0, 0
-  index: 1
-floor
-  rotate: false
-  xy: 1, 217
-  size: 800, 80
-  orig: 800, 80
-  offset: 0, 0
-  index: 2
-floor
-  rotate: false
-  xy: 1, 135
-  size: 800, 80
-  orig: 800, 80
-  offset: 0, 0
-  index: 1
 shoot_long
   rotate: false
-  xy: 803, 299
+  xy: 1, 235
   size: 12, 600
   orig: 12, 600
   offset: 0, 0
   index: 3
 shoot_long
   rotate: false
-  xy: 817, 299
+  xy: 15, 235
   size: 12, 600
   orig: 12, 600
   offset: 0, 0
   index: 4
 shoot_long
   rotate: false
-  xy: 831, 299
+  xy: 29, 235
   size: 12, 600
   orig: 12, 600
   offset: 0, 0
   index: 2
 shoot_long
   rotate: false
-  xy: 845, 299
+  xy: 43, 235
   size: 8, 600
   orig: 8, 600
   offset: 0, 0
   index: 5
 shoot_long
   rotate: false
-  xy: 855, 299
+  xy: 53, 235
   size: 8, 600
   orig: 8, 600
   offset: 0, 0
   index: 6
-wall
-  rotate: false
-  xy: 865, 459
-  size: 80, 440
-  orig: 80, 440
-  offset: 0, 0
-  index: 1
-wall
-  rotate: false
-  xy: 865, 17
-  size: 80, 440
-  orig: 80, 440
-  offset: 0, 0
-  index: 2
 ball_02
   rotate: false
-  xy: 947, 835
+  xy: 63, 771
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 error_texture
   rotate: false
-  xy: 1, 69
+  xy: 63, 705
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 ball_01
   rotate: false
-  xy: 947, 769
+  xy: 63, 639
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
+tileset
+  rotate: false
+  xy: 1, 153
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 0
 player_test
   rotate: false
-  xy: 803, 233
+  xy: 1, 87
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 ball_01
   rotate: false
-  xy: 1, 35
+  xy: 63, 605
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 square_blue
   rotate: false
-  xy: 67, 101
+  xy: 1, 53
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 947, 735
+  xy: 35, 119
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 ball_02
   rotate: false
-  xy: 803, 199
+  xy: 63, 571
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 player
   rotate: false
-  xy: 1, 1
+  xy: 1, 19
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 square_pink
   rotate: false
-  xy: 101, 101
+  xy: 35, 85
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 hearth
   rotate: false
-  xy: 67, 71
+  xy: 63, 541
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: 1
 ball_02
   rotate: false
-  xy: 837, 281
+  xy: 97, 621
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
 ball_01
   rotate: false
-  xy: 35, 51
+  xy: 1, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
-
-multiblax_atlas2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-background
-  rotate: false
-  xy: 1, 1
-  size: 800, 600
-  orig: 800, 600
-  offset: 0, 0
-  index: 2

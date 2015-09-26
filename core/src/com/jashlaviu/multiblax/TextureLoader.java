@@ -13,7 +13,6 @@ public class TextureLoader {
     public static TextureRegion shootLongNormal, shootLongFreeze, shootBullet;
     public static TextureRegion playerNormal;
     public static TextureRegion ballBlueBig, ballBlueMedium, ballBlueSmall;
-    public static TextureRegion background1, floor, wall;
     public static TextureRegion hearth;
     
     public TextureLoader(){
@@ -29,10 +28,6 @@ public class TextureLoader {
     	ballBlueBig = atlas.findRegion("ball_02", 3);
     	ballBlueMedium = atlas.findRegion("ball_02", 2);
     	ballBlueSmall = atlas.findRegion("ball_02", 1);
-    	
-    	background1 = atlas.findRegion("background", 2);
-    	floor = atlas.findRegion("floor", 2);
-    	wall = atlas.findRegion("wall", 2);
     }
 
     public void dispose(){

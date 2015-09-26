@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -22,18 +21,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.jashlaviu.multiblax.actors.Background;
-import com.jashlaviu.multiblax.actors.Ball;
-import com.jashlaviu.multiblax.actors.Player;
-import com.jashlaviu.multiblax.actors.ShootLong;
-import com.jashlaviu.multiblax.actors.Wall;
+import com.jashlaviu.multiblax.actors.*;
 
 public class MultiblaxScreen extends ScreenAdapter{
 
     private SpriteBatch batch;
     private Stage stage;
     private Player player;
-    private Ball ball, ball2, ball3, ball4;
 
     private InputHandler inputHandler;
     private OrthographicCamera camera;
@@ -46,7 +40,7 @@ public class MultiblaxScreen extends ScreenAdapter{
 
     public ShapeRenderer shaper = new ShapeRenderer();
     
-	private OrthogonalTiledMapRenderer renderer;
+	private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMap map;
     
     private Array<Rectangle> wallRects;    
@@ -68,16 +62,15 @@ public class MultiblaxScreen extends ScreenAdapter{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        mapRenderer.setView((OrthographicCamera) stage.getCamera());
+        mapRenderer.render();
+        
+        //Now render objects in your stage on top.
         updateBalls(delta);
         updatePlayer(delta);
-        
-        renderer.setView((OrthographicCamera) stage.getCamera());
-        renderer.render();
-        //Now render objects in your stage on top.
-        //stage.render();
+        updateShoots(delta);
         
         stage.draw();
-        updateShoots(delta);
         stage.act(delta);
         
         // Draw hearts
@@ -86,7 +79,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         	stage.getBatch().draw(TextureLoader.hearth, 50 + i*50, 550);
         }
         stage.getBatch().end();
-        
+    
         shaper.begin(ShapeType.Line);
         shaper.setColor(0, 0, 0, 0);        
         for(Rectangle rec : wallRects){
@@ -108,7 +101,7 @@ public class MultiblaxScreen extends ScreenAdapter{
     	
         // Load level (Should be in reset)
         map = new TmxMapLoader().load("map_0.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1f);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1f);
     	
     	stage = new Stage(new FitViewport(800, 600, camera), batch);
         player = new Player(200f, 100);
@@ -122,8 +115,8 @@ public class MultiblaxScreen extends ScreenAdapter{
         if(wallLayer != null){
         	MapObjects wallObjects = wallLayer.getObjects();
         	for (MapObject wallo : wallObjects){
-        		Rectangle rec = ((RectangleMapObject)wallo).getRectangle();
-        		wallRects.add(rec);        		
+        		Rectangle wallRec = ((RectangleMapObject)wallo).getRectangle();
+        		wallRects.add(wallRec);        		
         	}
         }
         
@@ -134,9 +127,20 @@ public class MultiblaxScreen extends ScreenAdapter{
         	for (MapObject ballo : ballObjects){
         		Rectangle ballRec = ((RectangleMapObject)ballo).getRectangle();
         		
-        		int size = Integer.parseInt((String) ballo.getProperties().get("size"));
-        		int vel = Integer.parseInt((String) ballo.getProperties().get("vel"));
-
+        		int size = 3;  // Default creation size
+        		// 'vel' is -1 or 1, meaning left or right.
+        		int vel = 1; // Default creation velocity
+        		
+        		String propertiesSize = (String) ballo.getProperties().get("size");
+        		String propertiesVel = (String) ballo.getProperties().get("vel");
+        		
+        		if(propertiesSize != null && !propertiesSize.isEmpty()){
+        			size = Integer.parseInt(propertiesSize);
+        		}
+        		if(propertiesVel != null && !propertiesVel.isEmpty()){
+        			vel = Integer.parseInt(propertiesVel);
+        		}
+        		
         		Ball ball = new Ball(ballRec.x, ballRec.y, size);
                 ball.setVelocityX(startVel * vel);
                 
@@ -257,6 +261,7 @@ public class MultiblaxScreen extends ScreenAdapter{
             if(ballDestroyed){
         		shoot.remove();
         		shootIterator.remove();
+        		break;
             }
         }
 
@@ -322,7 +327,7 @@ public class MultiblaxScreen extends ScreenAdapter{
         stage.dispose();
         shaper.dispose();
         map.dispose();
-        renderer.dispose();
+        mapRenderer.dispose();
     }
 
     public void movePlayer(){
